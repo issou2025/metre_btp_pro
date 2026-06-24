@@ -1,0 +1,20 @@
+[
+    {
+        "company_name": "Test Company",
+        "phone": "+22799999999",
+        "email": "test@company.com",
+        "device": "Android App",
+        "projects_count": 5,
+        "first_seen": "24/06/2026 15:43:30",
+        "last_seen": "24/06/2026 15:52:33"
+    },
+    {
+        "company_name": "Mon Entreprise BTP",
+        "phone": "+226 00 00 00 00",
+        "email": "contact@entreprise.com",
+        "device": "Web Browser",
+        "projects_count": 0,
+        "first_seen": "24/06/2026 15:45:23",
+        "last_seen": "24/06/2026 16:44:42"
+    }
+]
