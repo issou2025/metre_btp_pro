@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class GithubDownloadService {
-  static const String owner = "entreprise2rc";
+  static const String owner = "issou2025";
   static const String repo = "metre_btp_pro";
   static const String apkFileName = "metre_btp_pro.apk";
 
