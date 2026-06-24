@@ -21,11 +21,20 @@ class _AdminScreenState extends State<AdminScreen> {
   bool _isAuthenticated = false;
   bool _obscurePassword = true;
   final _passwordController = TextEditingController();
+  final _serverIpController = TextEditingController();
   String? _loginError;
+
+  @override
+  void initState() {
+    super.initState();
+    final appState = Provider.of<AppState>(context, listen: false);
+    _serverIpController.text = appState.serverIp;
+  }
 
   @override
   void dispose() {
     _passwordController.dispose();
+    _serverIpController.dispose();
     super.dispose();
   }
 
@@ -709,7 +718,141 @@ class _AdminScreenState extends State<AdminScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 16),
+                                // Server IP Configuration Panel
+                                Container(
+                                  padding: const EdgeInsets.all(14),
+                                  decoration: BoxDecoration(
+                                    color: isDarkMode ? const Color(0xFF1E293B) : Colors.amber.shade50.withOpacity(0.4),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(color: Colors.amber.shade300, width: 1),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Icon(Icons.settings_ethernet, color: Colors.amber, size: 18),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            "CONFIGURATION DE L'IP DU SERVEUR",
+                                            style: TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.bold,
+                                              color: textColor,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        "Sur un vrai téléphone, n'utilisez pas 'localhost'. Remplacez par l'adresse IP locale de votre ordinateur (ex: 192.168.1.50) et vérifiez que votre téléphone est sur le même Wi-Fi.",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: textMutedColor,
+                                          height: 1.4,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: SizedBox(
+                                              height: 42,
+                                              child: TextField(
+                                                controller: _serverIpController,
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: textColor,
+                                                ),
+                                                decoration: InputDecoration(
+                                                  hintText: "Ex: 192.168.1.50",
+                                                  contentPadding: const EdgeInsets.symmetric(
+                                                    horizontal: 12,
+                                                    vertical: 8,
+                                                  ),
+                                                  filled: true,
+                                                  fillColor: isDarkMode
+                                                      ? const Color(0xFF0F172A)
+                                                      : Colors.white,
+                                                  border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(8),
+                                                    borderSide: BorderSide(
+                                                      color: Colors.grey.shade300,
+                                                    ),
+                                                  ),
+                                                  enabledBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(8),
+                                                    borderSide: BorderSide(
+                                                      color: Colors.grey.shade300,
+                                                    ),
+                                                  ),
+                                                  focusedBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(8),
+                                                    borderSide: const BorderSide(
+                                                      color: Color(0xFF1E8E5A),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: const Color(0xFF1E8E5A),
+                                              foregroundColor: Colors.white,
+                                              padding: const EdgeInsets.symmetric(
+                                                horizontal: 14,
+                                                vertical: 10,
+                                              ),
+                                              minimumSize: const Size(0, 42),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8),
+                                              ),
+                                            ),
+                                            onPressed: () async {
+                                              final newIp = _serverIpController.text.trim();
+                                              if (newIp.isNotEmpty) {
+                                                await appState.updateSettings(
+                                                  currency: appState.defaultCurrency,
+                                                  lossPercentage: appState.defaultLossPercentage,
+                                                  themeMode: appState.themeMode,
+                                                  serverIp: newIp,
+                                                );
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text("Adresse IP du serveur mise à jour !"),
+                                                    backgroundColor: Color(0xFF1E8E5A),
+                                                    duration: Duration(seconds: 2),
+                                                  ),
+                                                );
+                                                _fetchStats();
+                                              }
+                                            },
+                                            child: const Text(
+                                              "Mettre à jour",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        "💡 Tapez 'ipconfig' dans l'invite de commande (cmd) sur votre PC pour trouver son adresse IP locale.",
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: textMutedColor,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
                                 // Server Launch Instructions Card
                                 Container(
                                   padding: const EdgeInsets.all(12),
