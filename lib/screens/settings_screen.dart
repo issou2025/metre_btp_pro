@@ -4,7 +4,6 @@ import '../models/company_model.dart';
 import '../providers/app_state.dart';
 import '../widgets/custom_input_field.dart';
 import '../widgets/primary_button.dart';
-import 'admin_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -267,56 +266,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           label: "Adresse IP / Serveur (Suivi APK)",
                           hint: "Ex: localhost ou 192.168.1.10",
                           isRequired: true,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 14),
-
-                // 3. ADMIN SPACE CARD
-                Card(
-                  elevation: 1,
-                  shadowColor: Colors.black.withOpacity(0.05),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Row(
-                          children: [
-                            Icon(Icons.admin_panel_settings, color: Color(0xFF0F2A44), size: 18),
-                            SizedBox(width: 8),
-                            Text(
-                              "ADMINISTRATION",
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF0F2A44)),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          "Consultez les statistiques de téléchargement de l'APK de l'application.",
-                          style: TextStyle(fontSize: 13, color: Colors.black54),
-                        ),
-                        const SizedBox(height: 14),
-                        ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF0F2A44),
-                            foregroundColor: Colors.white,
-                            minimumSize: const Size.fromHeight(48),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const AdminScreen()),
-                            );
-                          },
-                          icon: const Icon(Icons.analytics_outlined),
-                          label: const Text("Console Administrateur (APK)"),
                         ),
                       ],
                     ),
