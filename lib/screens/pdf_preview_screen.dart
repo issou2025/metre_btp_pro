@@ -27,7 +27,6 @@ class PdfPreviewScreen extends StatelessWidget {
     final sanitizedFileName = "DQE_${project.name.replaceAll(RegExp(r'[^\w]'), '_')}.pdf";
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
         title: Text(
           "Export DQE PDF : ${project.name}",

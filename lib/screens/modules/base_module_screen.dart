@@ -34,7 +34,6 @@ class _BaseModuleScreenState extends State<BaseModuleScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
         title: Text(
           _selectedModule == null ? widget.title : _selectedModule!.name,

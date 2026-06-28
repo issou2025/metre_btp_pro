@@ -7,7 +7,6 @@ class TutorialScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
         title: const Text(
           "Guide d'utilisation & Contact",

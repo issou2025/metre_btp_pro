@@ -37,7 +37,7 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
     "Autre"
   ];
 
-  final List<String> _currencyOptions = ["FCFA", "EUR", "USD"];
+  final List<String> _currencyOptions = ["FCFA", "EUR", "USD", "MGA", "Ar"];
 
   @override
   void dispose() {
@@ -92,7 +92,6 @@ class _ProjectCreateScreenState extends State<ProjectCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
         title: const Text(
           "Créer un Projet",

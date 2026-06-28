@@ -27,7 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   late String _currency;
   late String _themeMode;
 
-  final List<String> _currencyOptions = ["FCFA", "EUR", "USD"];
+  final List<String> _currencyOptions = ["FCFA", "EUR", "USD", "MGA", "Ar"];
   final List<String> _themeOptions = ["Clair", "Sombre", "Système"];
 
   @override
@@ -102,7 +102,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
         title: const Text(
           "Paramètres",

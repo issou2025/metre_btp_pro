@@ -51,7 +51,7 @@ class ProjectListScreen extends StatelessWidget {
       "Maison individuelle", "Villa", "Immeuble", "Mur de clôture", 
       "Boutique", "École", "Latrines", "Magasin", "Bâtiment administratif", "Autre"
     ];
-    final List<String> currencies = ["FCFA", "EUR", "USD"];
+    final List<String> currencies = ["FCFA", "EUR", "USD", "MGA", "Ar"];
 
     showDialog(
       context: context,
@@ -150,7 +150,6 @@ class ProjectListScreen extends StatelessWidget {
     final projects = appState.projects;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
         title: const Text(
           "Mes Projets",

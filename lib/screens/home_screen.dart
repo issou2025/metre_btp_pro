@@ -172,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: "Mes Projets",
                               subtitle: "$projectsCount projet(s) actif(s)",
                               icon: Icons.folder,
-                              iconColor: const Color(0xFF0F2A44),
+                              iconColor: const Color(0xFF3B82F6),
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -185,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: "Calcul Rapide",
                               subtitle: "Calculateur sans projet",
                               icon: Icons.calculate,
-                              iconColor: const Color(0xFF0F2A44),
+                              iconColor: const Color(0xFF8B5CF6),
                               onTap: () {
                                 final state = Provider.of<AppState>(context, listen: false);
                                 state.selectProject(null);
@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: "Prix Unitaires",
                               subtitle: "Tarifs de référence",
                               icon: Icons.payments,
-                              iconColor: const Color(0xFF0F2A44),
+                              iconColor: const Color(0xFFF59E0B),
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -213,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: "Paramètres",
                               subtitle: "Profil entreprise & devise",
                               icon: Icons.settings,
-                              iconColor: const Color(0xFF0F2A44),
+                              iconColor: const Color(0xFF06B6D4),
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -818,20 +818,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final cardBgColor = isDarkMode ? const Color(0xFF0E2238) : Colors.white;
-    final borderColor = isDarkMode ? const Color(0xFF1F2937) : const Color(0xFFE5E7EB);
+    final borderColor = isDarkMode ? iconColor.withOpacity(0.18) : iconColor.withOpacity(0.12);
     final titleColor = isDarkMode ? Colors.white : const Color(0xFF0F2A44);
     final subtitleColor = isDarkMode ? Colors.grey.shade400 : const Color(0xFF6B7280);
 
     return Container(
       decoration: BoxDecoration(
         color: cardBgColor,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: borderColor, width: 1),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: borderColor, width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: iconColor.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           )
         ],
       ),
@@ -839,7 +839,7 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.all(14.0),
             child: Column(
@@ -849,18 +849,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: iconColor.withOpacity(0.07),
+                    color: iconColor.withOpacity(0.08),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(icon, size: 20, color: iconColor),
+                  child: Icon(icon, size: 22, color: iconColor),
                 ),
+                const SizedBox(height: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: titleColor,
                       ),
@@ -869,7 +870,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       subtitle,
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 10.5,
                         color: subtitleColor,
                       ),
                       maxLines: 2,

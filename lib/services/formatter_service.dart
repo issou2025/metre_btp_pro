@@ -20,7 +20,7 @@ class FormatterService {
     if (amount.isNaN || amount.isInfinite) return '0 $currency';
     
     String formattedAmount;
-    if (currency.toUpperCase() == 'FCFA') {
+    if (currency.toUpperCase() == 'FCFA' || currency.toUpperCase() == 'MGA' || currency.toUpperCase() == 'AR') {
       // Rounded to integer
       final format = NumberFormat('#,##0', 'fr_FR');
       formattedAmount = format.format(amount.round()).replaceAll('\u00A0', ' ');

@@ -8,12 +8,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:metre_btp_pro/main.dart';
+import 'package:metre_btp_pro/app.dart';
+import 'package:metre_btp_pro/providers/app_state.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(
+      ChangeNotifierProvider<AppState>(
+        create: (_) => AppState(),
+        child: const App(),
+      ),
+    );
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

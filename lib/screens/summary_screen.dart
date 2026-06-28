@@ -161,7 +161,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
     final double totalGeneral = (totalHT + contingencyAmount) - discountAmount;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
         title: const Text(
           "Récapitulatif Financier",
