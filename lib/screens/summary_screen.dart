@@ -148,6 +148,13 @@ class _SummaryScreenState extends State<SummaryScreen> {
       );
     }
 
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final titleColor = isDarkMode ? Colors.white : const Color(0xFF0F2A44);
+    final bodyTextColor = isDarkMode ? Colors.blueGrey.shade100 : const Color(0xFF111827);
+    final subtitleColor = isDarkMode ? Colors.grey.shade400 : const Color(0xFF6B7280);
+    final dividerColor = isDarkMode ? Colors.grey.shade800 : const Color(0xFFF3F4F6);
+    final cardColor = isDarkMode ? const Color(0xFF0E2238) : Colors.white;
+
     // Group items by category
     final Map<String, List<MeasurementItem>> groupedItems = {};
     for (var item in project.items) {
@@ -189,16 +196,16 @@ class _SummaryScreenState extends State<SummaryScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // 1. DYNAMIC ESTIMATES PANEL (Contingencies & Discounts)
-              _buildEstimationPanel(totalHT, contingencyAmount, discountAmount, totalGeneral, project.currency),
+              _buildEstimationPanel(totalHT, contingencyAmount, discountAmount, totalGeneral, project.currency, isDarkMode, cardColor, titleColor, subtitleColor, bodyTextColor),
               const SizedBox(height: 16),
 
               // 2. HEADER ACTIONS
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     "RÉPARTITION PAR CATÉGORIES",
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.1, color: Color(0xFF6B7280)),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.1, color: subtitleColor),
                   ),
                   TextButton.icon(
                     onPressed: () {
@@ -239,6 +246,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                     shadowColor: Colors.black.withOpacity(0.05),
                     margin: const EdgeInsets.only(bottom: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    color: cardColor,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Column(
@@ -250,7 +258,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                             children: [
                               Text(
                                 category.toUpperCase(),
-                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF0F2A44)),
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: titleColor),
                               ),
                               Text(
                                 "Sous-total : ${FormatterService.formatCurrency(subTotal, project.currency)}",
@@ -258,14 +266,14 @@ class _SummaryScreenState extends State<SummaryScreen> {
                               ),
                             ],
                           ),
-                          const Divider(height: 16),
+                          Divider(height: 16, color: dividerColor),
 
                           // List of items in this category
                           ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: categoryItems.length,
-                            separatorBuilder: (context, index) => const Divider(height: 1, color: Color(0xFFF3F4F6)),
+                            separatorBuilder: (context, index) => Divider(height: 1, color: dividerColor),
                             itemBuilder: (context, index) {
                               final item = categoryItems[index];
                               return Padding(
@@ -279,7 +287,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                         children: [
                                           Text(
                                             item.designation,
-                                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF111827)),
+                                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: bodyTextColor),
                                           ),
                                           if (item.notes.isNotEmpty)
                                             Text(
@@ -289,7 +297,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                           const SizedBox(height: 2),
                                           Text(
                                             "${FormatterService.formatQuantity(item.quantity)} ${item.unit} × ${FormatterService.formatCurrency(item.unitPrice, project.currency)}",
-                                            style: const TextStyle(fontSize: 11, color: Color(0xFF6B7280)),
+                                            style: TextStyle(fontSize: 11, color: subtitleColor),
                                           ),
                                         ],
                                       ),
@@ -298,7 +306,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                       flex: 2,
                                       child: Text(
                                         FormatterService.formatCurrency(item.amount, project.currency),
-                                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF111827)),
+                                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: bodyTextColor),
                                         textAlign: TextAlign.right,
                                       ),
                                     ),
@@ -336,26 +344,26 @@ class _SummaryScreenState extends State<SummaryScreen> {
     );
   }
 
-  Widget _buildEstimationPanel(double totalHT, double contingency, double discount, double totalGeneral, String currency) {
+  Widget _buildEstimationPanel(double totalHT, double contingency, double discount, double totalGeneral, String currency, bool isDarkMode, Color cardColor, Color titleColor, Color subtitleColor, Color bodyTextColor) {
     return Card(
       elevation: 2,
       shadowColor: Colors.black.withOpacity(0.08),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      color: Colors.white,
+      color: cardColor,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
+            Text(
               "RÉCAPITULATIF GENERAL DU DEVIS",
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF0F2A44), letterSpacing: 1.1),
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: titleColor, letterSpacing: 1.1),
               textAlign: TextAlign.left,
             ),
-            const Divider(height: 20),
+            Divider(height: 20, color: isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
 
             // Total HT Row
-            _buildCostSummaryRow("Total des travaux HT :", totalHT, currency, isBold: false),
+            _buildCostSummaryRow("Total des travaux HT :", totalHT, currency, subtitleColor, bodyTextColor),
             const SizedBox(height: 8),
 
             // Imprévus configure
@@ -364,18 +372,20 @@ class _SummaryScreenState extends State<SummaryScreen> {
               children: [
                 Row(
                   children: [
-                    const Text("Imprévus :", style: TextStyle(fontSize: 13, color: Color(0xFF6B7280))),
+                    Text("Imprévus :", style: TextStyle(fontSize: 13, color: subtitleColor)),
                     const SizedBox(width: 6),
                     SizedBox(
                       width: 50,
                       height: 30,
                       child: TextField(
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: bodyTextColor),
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                           suffixText: "%",
-                          border: OutlineInputBorder(),
+                          suffixStyle: TextStyle(color: subtitleColor, fontSize: 10),
+                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300)),
+                          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF1E8E5A))),
                         ),
                         onChanged: (val) {
                           setState(() {
@@ -400,18 +410,20 @@ class _SummaryScreenState extends State<SummaryScreen> {
               children: [
                 Row(
                   children: [
-                    const Text("Remise / Rabais :", style: TextStyle(fontSize: 13, color: Color(0xFF6B7280))),
+                    Text("Remise / Rabais :", style: TextStyle(fontSize: 13, color: subtitleColor)),
                     const SizedBox(width: 6),
                     SizedBox(
                       width: 50,
                       height: 30,
                       child: TextField(
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: bodyTextColor),
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                           suffixText: "%",
-                          border: OutlineInputBorder(),
+                          suffixStyle: TextStyle(color: subtitleColor, fontSize: 10),
+                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300)),
+                          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF1E8E5A))),
                         ),
                         onChanged: (val) {
                           setState(() {
@@ -428,15 +440,15 @@ class _SummaryScreenState extends State<SummaryScreen> {
                 ),
               ],
             ),
-            const Divider(height: 24, thickness: 1),
+            Divider(height: 24, thickness: 1, color: isDarkMode ? Colors.grey.shade800 : Colors.grey.shade300),
 
             // Total General Row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   "TOTAL GENERAL ESTIMÉ :",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF0F2A44)),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: titleColor),
                 ),
                 Text(
                   FormatterService.formatCurrency(totalGeneral, currency),
@@ -450,7 +462,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
     );
   }
 
-  Widget _buildCostSummaryRow(String label, double amount, String currency, {bool isBold = false}) {
+  Widget _buildCostSummaryRow(String label, double amount, String currency, Color subtitleColor, Color valueColor) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -458,8 +470,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
           label,
           style: TextStyle(
             fontSize: 13,
-            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-            color: const Color(0xFF6B7280),
+            fontWeight: FontWeight.normal,
+            color: subtitleColor,
           ),
         ),
         Text(
@@ -467,7 +479,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color: isBold ? const Color(0xFF1E8E5A) : const Color(0xFF111827),
+            color: valueColor,
           ),
         ),
       ],

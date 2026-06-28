@@ -584,19 +584,18 @@ class ProjectDetailScreen extends StatelessWidget {
     required VoidCallback onTap,
     required bool isDarkMode,
   }) {
-
-
-    final cardBgColor = isDarkMode ? const Color(0xFF0E2238) : Colors.white;
-    final borderColor = isDarkMode ? const Color(0xFF1F2937) : const Color(0xFFE5E7EB);
+    final baseBgColor = isDarkMode ? const Color(0xFF0E2238) : Colors.white;
+    final cardBgColor = Color.alphaBlend(color.withOpacity(isDarkMode ? 0.08 : 0.04), baseBgColor);
+    final borderColor = isDarkMode ? color.withOpacity(0.2) : color.withOpacity(0.12);
     
     return Container(
       decoration: BoxDecoration(
         color: cardBgColor,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: borderColor, width: 1),
+        border: Border.all(color: borderColor, width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.015),
+            color: color.withOpacity(0.03),
             blurRadius: 6,
             offset: const Offset(0, 2),
           )
