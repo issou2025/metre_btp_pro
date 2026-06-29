@@ -1,4 +1,4 @@
-package com.antigravity.metre_btp_pro
+package com.issou2025.metre_btp_pro
 
 import io.flutter.embedding.android.FlutterActivity
 
