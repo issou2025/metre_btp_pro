@@ -314,6 +314,18 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                     Row(
                                       children: [
                                         IconButton(
+                                          icon: const Icon(Icons.copy, size: 16, color: Color(0xFF0F2A44)),
+                                          tooltip: 'Dupliquer',
+                                          constraints: const BoxConstraints(),
+                                          padding: const EdgeInsets.all(4),
+                                          onPressed: () {
+                                            appState.duplicateMeasurementItem(project.id, item);
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              const SnackBar(content: Text("Ligne dupliquée !"), backgroundColor: Color(0xFF16A34A)),
+                                            );
+                                          },
+                                        ),
+                                        IconButton(
                                           icon: const Icon(Icons.edit, size: 16, color: Colors.amber),
                                           constraints: const BoxConstraints(),
                                           padding: const EdgeInsets.all(4),
