@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 class CalculationResult {
   final double quantity;
   final double amount;
@@ -330,7 +332,10 @@ class CalculationService {
           final pu = inputs['prix_m3'] ?? 0.0;
 
           final volMarches = l * hm * g * n / 2.0;
-          final longDev = g * n;
+          final totalHeight = hm * n;
+          final totalLength = g * n;
+          // Exact slope length of the inclined slab (paillasse)
+          final longDev = math.sqrt(totalHeight * totalHeight + totalLength * totalLength);
           final volPaillasse = l * longDev * ep;
           final volumeTotal = volMarches + volPaillasse;
           final total = volumeTotal * pu;
@@ -341,7 +346,7 @@ class CalculationService {
             formulaUsed: "Vol. Marches ($volMarches m³) + Vol. Paillasse ($volPaillasse m³)",
             additionalInfo: {
               'Volume marches': volMarches,
-              'Longueur développée': longDev,
+              'Longueur développée (pente)': longDev,
               'Volume paillasse': volPaillasse,
               'Volume total': volumeTotal
             },
@@ -396,8 +401,14 @@ class CalculationService {
 
           if (esp == 0) return CalculationResult.error("L'espacement ne peut pas être égal à zéro.");
 
-          final longUnEtrier = 2 * (le + he) + rec;
-          final nEtriers = (Le / esp) * ne;
+          // Subtract 2.5 cm concrete cover (enrobage) on each of the 4 sides
+          final enrobage = 0.025;
+          final largeEtrier = (le - 2 * enrobage).clamp(0.01, double.infinity);
+          final hautEtrier = (he - 2 * enrobage).clamp(0.01, double.infinity);
+          final longUnEtrier = 2 * (largeEtrier + hautEtrier) + rec;
+
+          // Number of stirrups is intervals + 1 (Le / esp + 1)
+          final nEtriers = ((Le / esp).floor() + 1) * ne;
           final longTotale = longUnEtrier * nEtriers;
           final poidsLineaire = (d * d) / 162.0;
           final poidsTotal = longTotale * poidsLineaire;
