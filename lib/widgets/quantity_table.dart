@@ -41,8 +41,13 @@ class QuantityTable extends StatelessWidget {
       );
     }
 
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     // Alternating background colors
     Color getRowColor(int index) {
+      if (isDarkMode) {
+        return index % 2 == 0 ? const Color(0xFF0E2238) : const Color(0xFF0A1929);
+      }
       return index % 2 == 0 ? Colors.white : const Color(0xFFF9FAFB);
     }
 
@@ -50,7 +55,7 @@ class QuantityTable extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade200),
+          border: Border.all(color: isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200),
           borderRadius: BorderRadius.circular(8),
         ),
         child: DataTable(
@@ -101,12 +106,16 @@ class QuantityTable extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFE5E7EB),
+                      color: isDarkMode ? const Color(0xFF1E3A5F) : const Color(0xFFE5E7EB),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
                       item.category,
-                      style: const TextStyle(fontSize: 11, color: Color(0xFF374151), fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: isDarkMode ? const Color(0xFF90CAF9) : const Color(0xFF374151),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
@@ -116,7 +125,10 @@ class QuantityTable extends StatelessWidget {
                 DataCell(
                   Text(
                     FormatterService.formatCurrency(item.amount, currency).replaceAll(" $currency", ""),
-                    style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1E8E5A)),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: isDarkMode ? const Color(0xFF4ADE80) : const Color(0xFF1E8E5A),
+                    ),
                   ),
                 ),
                 DataCell(
@@ -124,7 +136,11 @@ class QuantityTable extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.copy, size: 16, color: Color(0xFF0F2A44)),
+                        icon: Icon(
+                          Icons.copy,
+                          size: 16,
+                          color: isDarkMode ? Colors.blue.shade300 : const Color(0xFF0F2A44),
+                        ),
                         tooltip: 'Dupliquer',
                         constraints: const BoxConstraints(),
                         padding: const EdgeInsets.symmetric(horizontal: 4),

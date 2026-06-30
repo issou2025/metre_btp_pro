@@ -63,10 +63,10 @@ class App extends StatelessWidget {
       // Premium Dark Theme
       darkTheme: ThemeData(
         useMaterial3: true,
-        primaryColor: const Color(0xFF0F2A44),
+        primaryColor: const Color(0xFF3B82F6),
         scaffoldBackgroundColor: const Color(0xFF0A1929), // Deep dark navy
         colorScheme: const ColorScheme.dark(
-          primary: Color(0xFF0F2A44),
+          primary: Color(0xFF3B82F6),
           secondary: Color(0xFF1E8E5A),
           error: Color(0xFFDC2626),
           background: Color(0xFF0A1929),
